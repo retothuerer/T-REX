@@ -13,7 +13,7 @@ TARE$MGM:2.5E2+ENV$KEL:293.15
 `T-REX`-formatted data is typically embedded into a URL by using the extension space of a [`PAC-ID`](https://github.com/ApiniLabs/PAC-ID):
 
 ```
-HTTPS://PAC.METTORIUS.COM/DEVICE/21:210263/RNR:23*11$T.D:20231121+METHOD$T.A:BASIC
+HTTPS://PAC.METTORIUS.COM/-MD/240:BAL500/21:210263*CUR$TREX/TARE$MGM:2.5E2+ENV$KEL:293.15
 ```
 
 This combination results in a globally uniqe identifier referencing the full data record (`PAC-ID`) while also providing directly accessible summarized result data (`T-REX`).
@@ -160,7 +160,7 @@ digit        = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
 Example:
 
 ```
-HTTPS://PAC.METTORIUS.COM/DEVICE/21:210263*11$T.D:20231121+METHOD$T.A:BASIC
+HTTPS://PAC.METTORIUS.COM/-MD/240:BAL500/21:210263*CUR$TREX/TARE$MGM:2.5E2+ENV$KEL:293.15
 ```
 
 ## Terminology Used
