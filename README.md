@@ -30,18 +30,57 @@ Developed from earlier ideas like LabQR and ResultQR by the SiLA 2 Core Working 
 
 ## Specification
 
-`T-REX`-formatted data consists of a sequence of ASCII characters, which is made up of individual `segment`s. These `segment`s are separated by `+`.
+`T-REX`-formatted data consists of a sequence of ASCII characters, which is made up of individual `segment`s. These `segment`s are separated by `+`. There are two types of segments: `value_segment` for single values and `table_segment` for tabular data. 
 
-Each `segment` comprises of a `key`, a `type` and a `value`. `key` and `type` are separated by a `$` colon, while `:` is used as a separator betweren `type` and `value`.
 
 The following diagram shows the main structure of a `T-REX`:
-
-![T-REX Railroad Diagram](images/t-rex-railroad-diagram-simple.svg)
+![T-REX Railroad Diagram](images/trex-railroad-diagram-with-table.svg)
 <!-- Created with https://matthijsgroen.github.io/ebnf2railroad/try-yourself.html, downloaded with Chrome Extension https://svgexport.io/, and beautified with https://inkscape.org/ -->
 
-*A railroad diagram depicting the main structure of a `T-REX`.*
+Further information about each component of the the main structure a `T-REX` can be found in the subsequent chapters:
 
-Further information about each component of the the main structure a `T-REX` can be found in the subsequent chapters.
+### Value Segments
+Each `segment` comprises of a `key`, a `type` and a `value`. `key` and `type` are separated by a `$` colon, while `:` is used as a separator betweren `type` and `value`.
+
+
+
+### Table Segment
+Tabular data is a common occurence in laboratories. Tables are introduced by a `table_key`, followed by the description of the columns and the data. The `table_key` is separated by `$$`. Table rows are separated by `::`, values within a row by `:`.
+
+#### Example Usage - Documenting of a Titration:
+| Volume | pH |
+|:--- |:--- |
+0.0 | 2.44 | 
+4.0 | 3.72 |
+8.0 | 4.33 |
+12.0 | 5.61 |
+14.0 | 10.98 |
+16.0 | 11.44 |
+
+As T-REX table (for readibility with additional line breaks)
+```
+TIT$$                        < table_key
+V$MLT:PH$C62::               < table_header
+0.0:2.44::                   < table_row
+4.0:3.72::                     .
+8.0:4.33::                     .
+12.0:5.61::                    .
+14.0:10.98::                   .
+16.0:11.44                     .
+```
+
+#### Example Usage - Grouping of Data:
+A table segment can also be used to group values.
+``` 
+SENSOR-A$$ 
+T$KEL:P$BAR::
+293:1.01
++
+SENSOR-B$$ 
+T$KEL:P$BAR:PH$C62::
+293:1.01:7.01
+```
+
 
 ### `Key`s
 
@@ -104,15 +143,16 @@ The following section contains the grammar for the T-REX format in [EBNF](https:
 [^2]: Whether a text is a valid `T-REX` can easily be tested using the [EBNF Evaluator](https://mdkrajnak.github.io/ebnftest/)
 
 ``` ebnf
-trex         = segment , { "+" , segment };
-segment      = key, "$", typedvalue ;
+trex         = segment , { "+" , segment } ;
+segment      = vsegment | tsegment ;
+vsegment     = key, "$", type, ":", value ;
+tsegment     = key, "$$", th, "::", td, { "::", td } ;
+th           = key, "$" , type, { key,"$", type } ;
+td           = value, { ":", value } ;
+
 key          = alphanumeric, {punctuation | alphanumeric} ;
-typedvalue   = (numericunit, tvseparator, numericvalue) 
-| (texttype, tvseparator, textvalue)
-| (booltype, tvseparator, boolvalue)
-| (datetype, tvseparator, datevalue) 
-| (binarytype, tvseparator, binaryvalue) (* Should only be used if no combination of segments of other types can adequately represent your data. *)
-| (error, tvseparator, errorvalue) (* Reserved for error handling, e.g. error codes in case the actual value of the segment is unavailable. *);
+type         = numericunit | texttype | booltype | datetype | binarytype | error;
+value        = numericvalue | textvalue | boolvalue | datevalue | binaryvalue | errorvalue;
 
 numericunit  = alphanumeric, alphanumeric, [alphanumeric]; (* Unit of Measure Common Code as defined by UN/CEFACT in REC 20 *)
 numericvalue = decimal | scientific ;
@@ -143,7 +183,6 @@ minutes      = digit, digit ;
 seconds      = digit, digit ;
 milliseconds = digit, digit, digit ;
 
-tvseparator  = ":" ;
 punctuation  = "." | "-" ;
 alphanumeric = letter | digit ;
 letter       = "A" | "B" | "C" | "D" | "E" | "F" | "G"
