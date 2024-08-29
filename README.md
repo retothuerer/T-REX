@@ -28,12 +28,12 @@ Lab equipment can last up to 30 years, but it takes time for standardized interf
 
 Developed from earlier ideas like LabQR and ResultQR by the SiLA 2 Core Working Group, `T-REX` represents the latest innovation in lab data sharing.
 
-## Specification
+## Specification 
 
 `T-REX`-formatted data consists of a sequence of ASCII characters, which is made up of individual `segment`s. These `segment`s are separated by `+`. There are two types of segments: `value_segment` for single values and `table_segment` for tabular data. 
 
 
-The following diagram shows the main structure of a `T-REX`:
+The following diagram shows the structure of a `T-REX`:
 ![T-REX Railroad Diagram](images/trex-railroad-diagram-with-table.svg)
 <!-- Created with https://matthijsgroen.github.io/ebnf2railroad/try-yourself.html, downloaded with Chrome Extension https://svgexport.io/, and beautified with https://inkscape.org/ -->
 
@@ -42,12 +42,38 @@ Further information about each component of the the main structure a `T-REX` can
 ### Value Segments
 Each `segment` comprises of a `key`, a `type` and a `value`. `key` and `type` are separated by a `$` colon, while `:` is used as a separator betweren `type` and `value`.
 
+### Examples
+
+Example `T-REX`, containing a tare weight (250 mg) and an environmental temperature (293.15 K):
+
+```
+TARE$MGM:2.5E2+ENV$KEL:293.15
+```
+
+Example `T-REX`, containing a start date (22 FEB 2024 17:48), a duration (0 min) and a mode ("MANUAL"):
+
+```
+START$T.D:20240222T1748+DURATION$MIN:0+MODE$T.A:MANUAL
+```
+
 
 
 ### Table Segment
 Tabular data is a common occurence in laboratories. Tables are introduced by a `table_key`, followed by the description of the columns and the data. The `table_key` is separated by `$$`. Table rows are separated by `::`, values within a row by `:`.
 
-#### Example Usage - Documenting of a Titration:
+#### Examples
+Example `T-REX` containing the datapoints (Volume and pH) of a titration (for readibility with additional line breaks):
+```
+TIT$$                        < table_key
+VOL$MLT:PH$C62::             < table_header
+0.0:2.44::                   < table_row
+4.0:3.72::                       .
+8.0:4.33::                       .
+12.0:5.61::                      .
+14.0:10.98::                     .
+16.0:11.44                       .
+```
+<!--
 | Volume | pH |
 |:--- |:--- |
 0.0 | 2.44 | 
@@ -56,29 +82,22 @@ Tabular data is a common occurence in laboratories. Tables are introduced by a `
 12.0 | 5.61 |
 14.0 | 10.98 |
 16.0 | 11.44 |
+-->
 
-As T-REX table (for readibility with additional line breaks)
-```
-TIT$$                        < table_key
-V$MLT:PH$C62::               < table_header
-0.0:2.44::                   < table_row
-4.0:3.72::                     .
-8.0:4.33::                     .
-12.0:5.61::                    .
-14.0:10.98::                   .
-16.0:11.44                     .
-```
-
-#### Example Usage - Grouping of Data:
-A table segment can also be used to group values.
+Example `T-REX` with data from multiple sensors
+Here there is only one measurement of each sonsor, but using tables allows to structure the data and repeat the `TEMP` key in the same `T_REX` (for readibility with additional line breaks):
 ``` 
-SENSOR-A$$ 
-T$KEL:P$BAR::
-293:1.01
+ENV$$ 
+PRESSURE$BAR:TEMP$KEL::
+1.01:293
 +
-SENSOR-B$$ 
-T$KEL:P$BAR:PH$C62::
-293:1.01:7.01
+PH$$ 
+PH$C62:TEMP$KEL::
+7.01:292
++
+CONDUCTIVITY$$
+COND$SIE:TEMP$KEL::
+1.5:295
 ```
 
 
@@ -122,19 +141,6 @@ The type MUST either be a `Unit of Measure Common Code` or a hint to a data type
 
 [^1]: Unit of Measure Common Code as defined by UN/CEFACT in REC 20 ([https://unece.org/trade/uncefact/cl-recommendations](https://unece.org/trade/uncefact/cl-recommendations) > REC20 > Latest Revision > Column “CommonCode“ of Annexes I-III Excel File)
 
-## Examples
-
-Example `T-REX`, containing a tare weight (250 mg) and an environmental temperature (293.15 K):
-
-```
-TARE$MGM:2.5E2+ENV$KEL:293.15
-```
-
-Example `T-REX`, containing a start date (22 FEB 2024 17:48), a duration (0 min) and a mode ("MANUAL"):
-
-```
-START$T.D:20240222T1748+DURATION$MIN:0+MODE$T.A:MANUAL
-```
 
 ## Full EBNF Grammar of the T-REX Format
 
