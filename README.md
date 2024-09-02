@@ -149,13 +149,16 @@ The following section contains the grammar for the T-REX format in [EBNF](https:
 [^2]: Whether a text is a valid `T-REX` can easily be tested using the [EBNF Evaluator](https://mdkrajnak.github.io/ebnftest/)
 
 ``` ebnf
-trex         = segment , { "+" , segment } ;
-segment      = vsegment | tsegment ;
-vsegment     = key, "$", type, ":", value ;
-tsegment     = key, "$$", th, "::", td, { "::", td } ;
-th           = key, "$" , type, { key,"$", type } ;
-td           = value, { ":", value } ;
 
+trex         = segment , { "+" , segment } ;
+segment      = valuesegment | tablesegment ;
+valuesegment = key, "$", type, ":", value ;
+tablesegment = tablekey, "$$", tableheader, "::", tablerow, { "::", tablerow } ;
+
+tableheader    = key, "$" , type, {":", key,"$", type } ;
+tablerow       = value, { ":", value } ;
+
+tablekey    = alphanumeric, {punctuation | alphanumeric} ;
 key          = alphanumeric, {punctuation | alphanumeric} ;
 type         = numericunit | texttype | booltype | datetype | binarytype | error;
 value        = numericvalue | textvalue | boolvalue | datevalue | binaryvalue | errorvalue;
