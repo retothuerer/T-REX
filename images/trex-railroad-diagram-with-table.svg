@@ -424,13 +424,13 @@
                  stroke-width="3px"
                  id="path34" />
               <a
-                 xlink:href="#value_segment"
+                 xlink:href="#value segment"
                  id="a34">
                 <text
                    x="229.5"
                    y="66"
                    class="comment"
-                   id="text34">value_segment</text>
+                   id="text34">value segment</text>
               </a>
             </g>
           </g>
@@ -520,14 +520,14 @@
                    stroke-width="3px"
                    id="rect42" />
                 <a
-                   xlink:href="#table_key"
+                   xlink:href="#table key"
                    id="a42"
                    inkscape:label="a42"
                    transform="translate(-4)">
                   <text
                      x="110.25"
                      y="193"
-                     id="text42">table_key</text>
+                     id="text42">table key</text>
                 </a>
               </g>
               <path
@@ -842,14 +842,14 @@
                      stroke-width="3px"
                      id="path71" />
                   <a
-                     xlink:href="#table_header"
+                     xlink:href="#table header"
                      id="a71"
                      transform="translate(8)">
                     <text
                        x="262.5"
                        y="164"
                        class="comment"
-                       id="text71">table_header</text>
+                       id="text71">table header</text>
                   </a>
                 </g>
               </g>
@@ -1114,14 +1114,14 @@
                          stroke-width="3px"
                          id="path96" />
                       <a
-                         xlink:href="#table_row"
+                         xlink:href="#table row"
                          id="a96"
                          transform="translate(-38)">
                         <text
                            x="595"
                            y="164"
                            class="comment"
-                           id="text96">table_row</text>
+                           id="text96">table row</text>
                       </a>
                     </g>
                   </g>
@@ -1177,14 +1177,14 @@
                  stroke-width="3px"
                  id="path103" />
               <a
-                 xlink:href="#table_segment"
+                 xlink:href="#table segment"
                  id="a103"
                  transform="translate(-40)">
                 <text
                    x="130.5"
                    y="134"
                    class="comment"
-                   id="text103">table_segment</text>
+                   id="text103">table segment</text>
               </a>
             </g>
           </g>

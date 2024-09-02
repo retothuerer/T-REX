@@ -30,7 +30,7 @@ Developed from earlier ideas like LabQR and ResultQR by the SiLA 2 Core Working 
 
 ## Specification 
 
-`T-REX`-formatted data consists of a sequence of ASCII characters, which is made up of individual `segment`s. These `segment`s are separated by `+`. There are two types of segments: `value_segment` for single values and `table_segment` for tabular data. 
+`T-REX`-formatted data consists of a sequence of ASCII characters, which is made up of individual `segment`s. These `segment`s are separated by `+`. There are two types of segments: `value segment` for single values and `table segment` for tabular data. 
 
 
 The following diagram shows the structure of a `T-REX`:
@@ -59,14 +59,16 @@ START$T.D:20240222T1748+DURATION$MIN:0+MODE$T.A:MANUAL
 
 
 ### Table Segment
-Tabular data is a common occurence in laboratories. Tables are introduced by a `table_key`, followed by the description of the columns and the data. The `table_key` is separated by `$$`. Table rows are separated by `::`, values within a row by `:`.
+Since tabular data is a common occurence in laboratories, tables are supported by `T-REX`. 
+
+Tables are introduced by a `table key`, followed by the description of the columns (`table header`) and the data, organized into `table row`s. The `table key` is separated by `$$`. `table header` and `table row`s are separated by `::`, values within the `table header` and `table row`s are separated by `:`.
 
 #### Examples
 Example `T-REX` containing the datapoints (Volume and pH) of a titration (for readibility with additional line breaks):
 ```
-TIT$$                        < table_key
-VOL$MLT:PH$C62::             < table_header
-0.0:2.44::                   < table_row
+TIT$$                        < table key
+VOL$MLT:PH$C62::             < table header
+0.0:2.44::                   < table row
 4.0:3.72::                       .
 8.0:4.33::                       .
 12.0:5.61::                      .
@@ -85,7 +87,7 @@ VOL$MLT:PH$C62::             < table_header
 -->
 
 Example `T-REX` with data from multiple sensors
-Here there is only one measurement of each sonsor, but using tables allows to structure the data and repeat the `TEMP` key in the same `T_REX` (for readibility with additional line breaks):
+Here there is only one measurement of each sonsor, but using tables allows to structure the data and repeat the `TEMP` key in the same `T-REX` (for readibility with additional line breaks):
 ``` 
 ENV$$ 
 PRESSURE$BAR:TEMP$KEL::
