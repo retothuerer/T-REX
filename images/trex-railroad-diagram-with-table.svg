@@ -2,7 +2,7 @@
 <svg
    class="railroad-diagram"
    width="761"
-   style="max-height: 312px;"
+   style="max-height: 312px; background-color:white"
    font-family="Arial, Helvetica, sans-serif"
    viewBox="0 0 761 312"
    height="312"
@@ -39,7 +39,6 @@
   <g
      transform="translate(.5 .5)"
      id="g113">
-     style="background-color:white"
     <g
        id="g1">
       <path
