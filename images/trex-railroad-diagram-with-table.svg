@@ -27,18 +27,19 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="1.2859866"
-     inkscape:cx="300.54746"
-     inkscape:cy="188.57118"
-     inkscape:window-width="1346"
+     inkscape:zoom="1.8186597"
+     inkscape:cx="247.16004"
+     inkscape:cy="253.7583"
+     inkscape:window-width="2361"
      inkscape:window-height="1017"
-     inkscape:window-x="2054"
-     inkscape:window-y="1"
+     inkscape:window-x="1923"
+     inkscape:window-y="14"
      inkscape:window-maximized="0"
-     inkscape:current-layer="g102" />
+     inkscape:current-layer="g94" />
   <g
      transform="translate(.5 .5)"
      id="g113">
+     style="background-color:white"
     <g
        id="g1">
       <path
@@ -608,18 +609,18 @@
                    stroke-width="3px"
                    id="path50" />
                 <rect
-                   x="263.5"
-                   y="170"
-                   width="208"
-                   height="47"
-                   rx="10"
-                   ry="10"
+                   x="263.68298"
+                   y="170.18275"
+                   width="207.63403"
+                   height="65.878525"
+                   rx="9.9824057"
+                   ry="14.016708"
                    class="group-box"
                    stroke="#808080"
                    fill="none"
                    stroke-width="3px"
                    id="rect50"
-                   style="stroke-dasharray:4,2;stroke-dashoffset:0;stroke-width:2" />
+                   style="stroke-width:2.36576;stroke-dasharray:4.73152, 2.36576;stroke-dashoffset:0" />
                 <g
                    id="g69">
                   <path
@@ -800,30 +801,6 @@
                      fill="#000000"
                      stroke-width="3px"
                      id="path66" />
-                  <path
-                     d="M283.5 189a10 10 0 0 0 -10 10v0a10 10 0 0 0 10 10"
-                     stroke="#000000"
-                     fill-opacity="0"
-                     fill="#000000"
-                     stroke-width="3px"
-                     id="path67" />
-                  <g
-                     id="g68">
-                    <path
-                       d="M283.5 209h168"
-                       stroke="#000000"
-                       fill-opacity="0"
-                       fill="#000000"
-                       stroke-width="3px"
-                       id="path68" />
-                  </g>
-                  <path
-                     d="M451.5 209a10 10 0 0 0 10 -10v0a10 10 0 0 0 -10 -10"
-                     stroke="#000000"
-                     fill-opacity="0"
-                     fill="#000000"
-                     stroke-width="3px"
-                     id="path69" />
                 </g>
                 <g
                    id="g71">
@@ -1095,6 +1072,56 @@
                          fill="#000000"
                          stroke-width="3px"
                          id="path94" />
+                      <path
+                         d="m 277.042,189.10296 a 10.03141,9.6944136 0 0 0 -10.0314,9.69441 v 9.69441 a 10.03141,9.6944136 0 0 0 10.0314,9.69441"
+                         stroke="#000000"
+                         fill-opacity="0"
+                         fill="#000000"
+                         stroke-width="2.95845px"
+                         id="path91-5" />
+                      <g
+                         class="terminal"
+                         id="g93-7"
+                         transform="matrix(1.0076149,0,0,0.99998401,-252.83236,-0.89389712)">
+                        <path
+                           d="M 524.65029,219 H 595.5"
+                           stroke="#000000"
+                           fill-opacity="0"
+                           fill="#000000"
+                           stroke-width="3px"
+                           id="path92-5"
+                           sodipodi:nodetypes="cc" />
+                        <path
+                           d="m 624,219 79.40345,-0.1944"
+                           stroke="#000000"
+                           fill-opacity="0"
+                           fill="#000000"
+                           stroke-width="3px"
+                           id="path93-2"
+                           sodipodi:nodetypes="cc" />
+                        <rect
+                           x="595.5"
+                           y="208"
+                           width="28.5"
+                           height="22"
+                           rx="10"
+                           ry="10"
+                           stroke="#000000"
+                           fill="#feffdf"
+                           stroke-width="3px"
+                           id="rect93-2" />
+                        <text
+                           x="607.75"
+                           y="223"
+                           id="text93-0">:</text>
+                      </g>
+                      <path
+                         d="m 455.49858,217.75328 a 10.043975,9.5727206 0 0 0 10.04398,-9.57271 v -9.57272 a 10.043975,9.5727206 0 0 0 -10.04398,-9.57273"
+                         stroke="#000000"
+                         fill-opacity="0"
+                         fill="#000000"
+                         stroke-width="2.94165px"
+                         id="path94-4" />
                     </g>
                     <g
                        id="g96"
