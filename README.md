@@ -30,6 +30,11 @@ Developed from earlier ideas like LabQR and ResultQR by the SiLA 2 Core Working 
 
 ## Specification 
 
+### Extension type
+`TREX` must be used for this extension's `type`.
+
+### Data
+
 `T-REX`-formatted data consists of a sequence of ASCII characters, which is made up of individual `segment`s. These `segment`s are separated by `+`. There are two types of segments: `value segment` for single values and `table segment` for tabular data. 
 
 
@@ -109,12 +114,14 @@ Some example `key`s are listed in the table below. The best practice is to use a
 
 | `key` | Ontology Origin | Description |
 | :-- | :-- | :-- |
+| `N`    | T-REX (this specification) | Display Name: A human-readable name for an entity. | 
 | `TARE` | T-REX (this specification) | A "tare" weight |
 | `ENV` | T-REX (this specification) | Environmental (temperature) |
 | `START` | T-REX (this specification) | Start (date or time) |
 | `DURATION` | T-REX (this specification) | Duration |
 | `MODE` | T-REX (this specification) | Mode of operation |
 | ... | | |
+| `11` | [GS1 AI](https://ref.gs1.org/ai/) | Production date |
 | `17` | [GS1 AI](https://ref.gs1.org/ai/) | Expiration date |
 | ... | | |
 
@@ -127,21 +134,24 @@ The type MUST either be a `Unit of Measure Common Code` or a hint to a data type
 | `MGM`  | Unit of Measure Common Code[^1] | For milligram [10⁻⁶ kg] |
 | `CEL`  | Unit of Measure Common Code[^1] | For degree celsius, Refer ISO 80000-5 (Quantities and units — Part 5: Thermodynamics) |
 | `MLT`  | Unit of Measure Common Code[^1] | For millilitre, [10⁻⁶ m³] |
-| `GL`  | Unit of Measure Common Code[^1] | For gram per litre [g/l] or [kg/m³] |
+| `GL`   | Unit of Measure Common Code[^1] | For gram per litre [g/l] or [kg/m³] |
 | `C34`  | Unit of Measure Common Code[^1] | For mole [mol] |
 | `D43`  | Unit of Measure Common Code[^1] | For atomic mass unit [u] or [1,660 538 782 x 10⁻²⁷ kg] |
 | `C62`  | Unit of Measure Common Code[^1] | For unit-less numbers (unit “one“). |
-| ... |  | ... |
-| ... |  | ... many more units are defined in Unit of Measure Common Code[^1] ... |
-| ... |  | ... |
+| ...    |  | ... |
+| ...    |  | ... many more units are defined in Unit of Measure Common Code[^1] ... |
+| ...    |  | ... |
 | `T.D` | T-REX (this specification) | For date and time followed by a `value` in ISO8601 Basic Format further limited to the following options:<ul><li> Date: YYYYMMDD, Example: `START$T.D:20231121`</li><li>Time: THHMM, Example: `START$T.D:T0846`, THHMMSS, Example: `START$T.D:T084659`, THHMMSS.SSS , Example: `START$T.D:T084659.956`</li><li> Timestamp: Any valid date format followed by any valid time format. Example: `START$T.D:20231121T0846`</li><li>Note: Relative time is represented by any suitable unit of measure instead of type `T.D`, Example: `DURATION$SEC:568`</li></ul> |
 | `T.B` | T-REX (this specification) | For Booleans followed by `T` (true) or `F` (false) as `value`. Example: `UNDERVACUUM$T.B:T` |
-| `T.A` | T-REX (this specification) | For alphanumeric strings of a variable length, limited to the character set `A-Z`, `0-9`, `.` and `-`. Example: `METHOD$T.A:HELLOWORLD` |
-| `T.X` | T-REX (this specification) | For arbitrary [Base36](https://en.wikipedia.org/wiki/Base36) encoded data. Allowed characters are `A-Z` and `0-9`. Use this as a last resort only. |
+| `T.A` | T-REX (this specification) | For alphanumeric strings of variable length, limited to the character set `A-Z`, `0-9`, `.` and `-`. Example: `METHOD$T.A:HELLOWORLD` |
+| `T.T` | T-REX (this specification) | For strings of variable length without limitations to the character set [^3]. <br> The string MUST first be encoded in UTF-8 and the resulting bytes be converted to [Base36](https://en.wikipedia.org/wiki/Base36) with the alphabet `01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ`. <br><br> Use this if it is desirable to use characters which are outside the character set of `T.A`. A common use case if for a display name. <br> Example: `N$T.T:F92WF8NEUDFJX47Q8FLVASJ438FIDH87ZO2G2` for Display Name "B-500 Balance @☣️Lab"|
+| `T.X` | T-REX (this specification) | For arbitrary [Base36](https://en.wikipedia.org/wiki/Base36) encoded data. The alphabet is `01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ`. Use this as a last resort only. |
 | `E` | T-REX (this specification) | For error codes (alphanumeric strings of a variable length, limited to the character set `A-Z`, `0-9`, `.` and `-`). This type is meant to be used to indicate errors for expected `key`s, e.g. if a `TEMP$KEL` is not available because the corresponding sensor was unplugged, `TEMP$T.E:NC` could be used. |
 | `X.` | T-REX (this specification) | `X.`-prefixed codes are reserved for future extensions. |
 
 [^1]: Unit of Measure Common Code as defined by UN/CEFACT in REC 20 ([https://unece.org/trade/uncefact/cl-recommendations](https://unece.org/trade/uncefact/cl-recommendations) > REC20 > Latest Revision > Column “CommonCode“ of Annexes I-III Excel File)
+
+[^3]: Motivation: QR codes can be more efficiently encoded with _alphanumeric_ mode, which uses a limited character set. If other characters are used, the entire QR code becomes ~30% larger. `PAC-ID`s, thus only use characters `0–9`, `A–Z` (upper-case only) and `$*+-./,:`.  
 
 
 ## Full EBNF Grammar of the T-REX Format
@@ -162,13 +172,15 @@ tablerow       = value, { ":", value } ;
 
 tablekey    = alphanumeric, {punctuation | alphanumeric} ;
 key          = alphanumeric, {punctuation | alphanumeric} ;
-type         = numericunit | texttype | booltype | datetype | binarytype | error;
+type         = numericunit | texttype | extendedtexttype | booltype | datetype | binarytype | error;
 value        = numericvalue | textvalue | boolvalue | datevalue | binaryvalue | errorvalue;
 
 numericunit  = alphanumeric, alphanumeric, [alphanumeric]; (* Unit of Measure Common Code as defined by UN/CEFACT in REC 20 *)
 numericvalue = decimal | scientific ;
 texttype     = "T.A";
 textvalue    = { punctuation | alphanumeric };
+extendedtexttype     = "T.T";
+extendedtextvalue    = base36;
 booltype     = "T.B";
 boolvalue    = "T" | "F" ;
 datetype     = "T.D";
