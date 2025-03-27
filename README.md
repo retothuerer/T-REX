@@ -144,7 +144,7 @@ The type MUST either be a `Unit of Measure Common Code` or a hint to a data type
 | `T.D` | T-REX (this specification) | For date and time followed by a `value` in ISO8601 Basic Format further limited to the following options:<ul><li> Date: YYYYMMDD, Example: `START$T.D:20231121`</li><li>Time: THHMM, Example: `START$T.D:T0846`, THHMMSS, Example: `START$T.D:T084659`, THHMMSS.SSS , Example: `START$T.D:T084659.956`</li><li> Timestamp: Any valid date format followed by any valid time format. Example: `START$T.D:20231121T0846`</li><li>Note: Relative time is represented by any suitable unit of measure instead of type `T.D`, Example: `DURATION$SEC:568`</li></ul> |
 | `T.B` | T-REX (this specification) | For Booleans followed by `T` (true) or `F` (false) as `value`. Example: `UNDERVACUUM$T.B:T` |
 | `T.A` | T-REX (this specification) | For alphanumeric strings of variable length, limited to the character set `A-Z`, `0-9`, `.` and `-`. Example: `METHOD$T.A:HELLOWORLD` |
-| `T.T` | T-REX (this specification) | For strings of variable length without limitations to the character set [^3]. <br> The string MUST first be encoded in UTF-8 and the resulting bytes be converted to [Base36](https://en.wikipedia.org/wiki/Base36) with the alphabet `01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ`. <br><br> Use this if it is desirable to use characters which are outside the character set of `T.A`. A common use case if for a display name. <br> Example: `N$T.T:F92WF8NEUDFJX47Q8FLVASJ438FIDH87ZO2G2` for Display Name "B-500 Balance @☣️Lab"|
+| `T.T` | T-REX (this specification) | For [Base36](https://en.wikipedia.org/wiki/Base36) encoded strings of variable length without limitations to the character set [^3]. <br> The string MUST first be encoded in UTF-8 and the resulting bytes be converted to [Base36](https://en.wikipedia.org/wiki/Base36) with the alphabet `01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ`. <br><br> Use this if it is desirable to use characters which are outside the character set of `T.A`.|
 | `T.X` | T-REX (this specification) | For arbitrary [Base36](https://en.wikipedia.org/wiki/Base36) encoded data. The alphabet is `01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ`. Use this as a last resort only. |
 | `E` | T-REX (this specification) | For error codes (alphanumeric strings of a variable length, limited to the character set `A-Z`, `0-9`, `.` and `-`). This type is meant to be used to indicate errors for expected `key`s, e.g. if a `TEMP$KEL` is not available because the corresponding sensor was unplugged, `TEMP$T.E:NC` could be used. |
 | `X.` | T-REX (this specification) | `X.`-prefixed codes are reserved for future extensions. |
@@ -172,15 +172,15 @@ tablerow       = value, { ":", value } ;
 
 tablekey    = alphanumeric, {punctuation | alphanumeric} ;
 key          = alphanumeric, {punctuation | alphanumeric} ;
-type         = numericunit | texttype | extendedtexttype | booltype | datetype | binarytype | error;
-value        = numericvalue | textvalue | boolvalue | datevalue | binaryvalue | errorvalue;
+type         = numericunit | alphanumerictype | texttype | booltype | datetype | binarytype | error;
+value        = numericvalue | alphanumericvalue| textvalue | boolvalue | datevalue | binaryvalue | errorvalue;
 
 numericunit  = alphanumeric, alphanumeric, [alphanumeric]; (* Unit of Measure Common Code as defined by UN/CEFACT in REC 20 *)
 numericvalue = decimal | scientific ;
-texttype     = "T.A";
-textvalue    = { punctuation | alphanumeric };
-extendedtexttype     = "T.T";
-extendedtextvalue    = base36;
+alphanumerictype     = "T.A";
+alphanumericvalue    = { punctuation | alphanumeric };
+texttype     = "T.T";
+textvalue    = base36; (* UTF-8 string is encoded with Base36. *)
 booltype     = "T.B";
 boolvalue    = "T" | "F" ;
 datetype     = "T.D";
